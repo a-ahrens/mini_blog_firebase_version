@@ -1,0 +1,54 @@
+<template>
+  <div class="home">
+    <h1>Home</h1>
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length">
+      <PostList :posts="posts" />
+    </div>
+    <div v-else>
+      <Spinner />
+    </div>
+  </div>
+</template>
+
+<script>
+import PostList from '../components/PostList.vue'
+import getPosts from '../composables/getPosts.js'
+import Spinner from '../components/Spinner.vue'
+
+//import { ref } from 'vue'
+
+export default {
+  name: 'Home',
+  components: { PostList, Spinner },
+  setup() {
+    const { posts, error, load } = getPosts()
+
+    load()
+
+    return { posts, error }
+    
+    // This section has been replaced with the getPosts() composable
+    // const posts = ref([])
+    // const error = ref(null)
+
+    // const load = async () => {
+    //   try {
+    //     let data = await fetch('http://localhost:3000/post')
+    //     if (!data.ok) {
+    //       throw Error('no data available')
+    //     }
+    //     posts.value = await data.json()
+    //   }
+    //   catch (err) {
+    //     error.value = err.message
+    //     console.log(error.value)
+    //   }
+
+    //   load()
+
+    //   return { posts, error }
+    
+  }
+}
+</script>
