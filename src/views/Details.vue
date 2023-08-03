@@ -13,15 +13,27 @@
 import getPost from '../composables/getPost.js'
 import Spinner from '../components/Spinner.vue'
 
+//import the useRoute function from vue-router package
+//creates a route instance that 
+import { useRoute } from 'vue-router'
+
 export default {
     props: ['id'],
     components: { Spinner },
     setup(props) {
-        const { post, error, load } = getPost(props.id)
+      const route = useRoute()
 
-        load()
+      //this sends a request to the JSON-Server for a specific post 
+          //we pass in the props of this component to make the request
+      //const { post, error, load } = getPost(props.id)
 
-        return { post, error}
+      //we can also use the route instance and directly access data inside the route params
+        //here, we are pulling a parameter with the name id from the route
+      const { post, error, load } = getPost(route.params.id)
+
+      load()
+
+      return { post, error}
     }
 }
 </script>
