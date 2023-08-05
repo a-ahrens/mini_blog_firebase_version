@@ -1,4 +1,4 @@
-import firebase from "firebase/app"     //you always have to import this to use firebase
+import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 const firebaseConfig = {
