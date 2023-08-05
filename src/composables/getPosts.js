@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { projectFirestore } from '../Firebase/config'
 
 const getPosts = () => {
     const posts = ref([])
@@ -6,15 +7,13 @@ const getPosts = () => {
 
     const load = async () => {
         try {
-            await new Promise(resolve => {
-                setTimeout(resolve, 2000)
-            })
+            //create a reference to the posts collection in the FireStore
+            //use the get() method to obtain all the docs in that collection
+            const res = await projectFirestore.collection('posts').get()
 
-            let data = await fetch('http://localhost:3000/posts')
-            if (!data.ok) {
-                throw Error('no data available')
-            }
-            posts.value = await data.json()
+            posts.value = res.docs.map(doc => {
+                return { ...doc.data(), id: doc.id }
+            })
         }
         catch (err) {
             error.value = err.message
