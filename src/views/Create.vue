@@ -23,6 +23,7 @@
 import { ref } from 'vue'
 //useRouter is a function from the vue router package which returns a router instance
 import { useRouter } from 'vue-router' 
+import { projectFirestore } from '@/Firebase/config'
 
 export default {
     setup() {
@@ -48,13 +49,9 @@ export default {
                 tags: tags.value
             }
             
-                await fetch('http://localhost:3000/posts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(post)
-                })
+            const res = await projectFirestore.collection('posts').add(post)
 
-                router.push({ name: 'Home' })
+            router.push({ name: 'Home' })
         }
 
 
